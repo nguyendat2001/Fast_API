@@ -11,16 +11,18 @@ logging_config = {
     "handlers": {
         "file": {
             "class": "logging.FileHandler",
-            "filename": "app.log",
+            "filename": "app_log.txt",  # Log file with .txt extension
             "formatter": "default",
         },
     },
     "loggers": {
         "": {  # root logger
             "handlers": ["file"],
-            "level": "INFO",
+            "level": "DEBUG",  # Capture all log levels
         },
     },
 }
 
 logging.config.dictConfig(logging_config)
+
+# Example log messages
