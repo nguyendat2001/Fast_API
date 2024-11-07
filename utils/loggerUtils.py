@@ -1,8 +1,8 @@
 import logging
 
 class Logger(object):
-    def __init__(self):
-        self.logger = logging.getLogger(__name__)
+    def __init__(self, name: str = None):
+        self.logger = logging.getLogger(name or __name__)
     def INFO(self, message):
         self.logger.info(message)
     def ERROR(self, message):

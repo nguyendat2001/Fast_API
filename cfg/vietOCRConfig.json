@@ -1,0 +1,13 @@
+{
+    "MODEL": {
+        "ROI_HEADS": {
+            "SCORE_THRESH_TEST": 0.5
+        },
+        "DEVICE": "cuda:0",
+        "CONFIG": "vgg_transformer",
+        "WEIGHT": "/kaggle/input/d/minhwiner123/vietocrmodel/transformerocr.pth",
+        "CNN":{
+            "PRETRAINED":true
+        }
+    }
+}

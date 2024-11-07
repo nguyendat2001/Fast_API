@@ -5,14 +5,10 @@
         },
         "DEVICE": "gpu",
         "NAME": "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml",
-        "WEIGHT": "/kaggle/input/cccd_detectronmark_rcnn/pytorch/default/1/Mark_RCNN_CCCD(Detectron2).pth",
+        "WEIGHT": "/handleDeeplearning/detectron/weights/weights.pth",
         "NUMCLASSES": 12,
         "CLASSNAMES": ["CCCD","date_of_birth","date_of_expiry","gender",
                 "hometown","hometown_2","id","image","name","nation","permanent_residence",
                 "permanent_residence_1","permanent_residence_2"]
-    },
-    "DATASETS": {
-        "TRAIN": ["train"],
-        "TEST": ["test"]
     }
 }
