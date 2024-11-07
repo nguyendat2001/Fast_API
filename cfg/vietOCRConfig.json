@@ -5,7 +5,7 @@
         },
         "DEVICE": "cuda:0",
         "CONFIG": "vgg_transformer",
-        "WEIGHT": "/kaggle/input/d/minhwiner123/vietocrmodel/transformerocr.pth",
+        "WEIGHT": "",
         "CNN":{
             "PRETRAINED":true
         }

@@ -1,9 +1,11 @@
 from PIL import Image
 import cv2 
 
+from utils.getEnvSetting import settings
+
 class VietOCRUtils:
     def __init__(self):
-        self.config_path = "/cfg/vietOCRConfig.json"
+        self.config_path = settings.ROOT_PATH + "/cfg/vietOCRConfig.json"
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
     
@@ -20,7 +22,7 @@ class VietOCRUtils:
         modelPretrained = config_dict.get("MODEL", {}).get("CNN", {}).get("PRETRAINED", False)
         
         config = Cfg.load_config_from_name(modelConfig)
-        if modelWeight != null and modelWeight!= "":
+        if modelWeight and modelWeight.strip():  
             config['weights'] = modelWeight
         config['cnn']['pretrained']=modelPretrained
         config['device'] = device

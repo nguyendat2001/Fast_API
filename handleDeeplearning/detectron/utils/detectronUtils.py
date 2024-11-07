@@ -9,9 +9,11 @@ from handleDeeplearning.vietocr.utils.vietOCRUils import VietOCRUtils
 
 from handleDeeplearning.detectron.utils.dataHandle import registerMetaData
 
+from utils.getEnvSetting import settings
+
 class DetectronUtil:
     def __init__(self, vietOCR):
-        self.config_path = "/cfg/detectronConfig.json"
+        self.config_path = settings.ROOT_PATH +"/cfg/detectronConfig.json"
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
         
@@ -19,14 +21,16 @@ class DetectronUtil:
         self.metaData = MetadataCatalog.get("test")
         self.classnames = self.metaData.thing_classes
         self.numclass = len(self.classnames)
-        if vietOCR != null:
+        if vietOCR is not None:  # Changed null to None
             self.ocrModel = vietOCR
-        else :
+        else:
             self.ocrModel = VietOCRUtils()
             
         
     def loadConfig(self):
         """Load Detectron2 config from a JSON file and configure the model settings."""
+        from detectron2 import model_zoo
+
         # Đọc file JSON và chuyển thành dictionary
         with open(self.config_path, 'r') as f:
             config_dict = json.load(f)

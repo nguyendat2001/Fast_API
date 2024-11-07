@@ -4,6 +4,8 @@ import cv2
 from detectron2.structures import BoxMode
 from detectron2.data import MetadataCatalog, DatasetCatalog
 
+from utils.getEnvSetting import settings
+
 def registerMetaData(json_file_path):
     # Xóa tất cả dataset và metadata đã đăng ký trước đó
     DatasetCatalog.clear()
@@ -22,5 +24,5 @@ def registerMetaData(json_file_path):
     DatasetCatalog.register(d, lambda d=d: annotations)  # Đăng ký với chú thích tương ứng
     MetadataCatalog.get(d).set(thing_classes=names)
 
-json_file_path = '/cfg/_annotations.coco.json'
+json_file_path = settings.ROOT_PATH + '/cfg/_annotations.coco.json'
 registerMetaData(json_file_path)

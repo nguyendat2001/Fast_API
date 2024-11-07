@@ -5,7 +5,7 @@
         },
         "DEVICE": "gpu",
         "NAME": "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml",
-        "WEIGHT": "/handleDeeplearning/detectron/weights/weights.pth",
+        "WEIGHT": "/content/drive/MyDrive/data/models/detectron.pth",
         "NUMCLASSES": 12,
         "CLASSNAMES": ["CCCD","date_of_birth","date_of_expiry","gender",
                 "hometown","hometown_2","id","image","name","nation","permanent_residence",
