@@ -93,7 +93,6 @@ class DetectronUtil:
         
         im = cv2.imread(imagePath)
         boxes, scores, classes, masks = self.detectObjects(imagePath);
-
         output_json = []
         for i in range(len(masks)):
             mask = masks[i].numpy()  # Chuyển mask sang numpy array

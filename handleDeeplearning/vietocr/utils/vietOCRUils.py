@@ -24,7 +24,7 @@ class VietOCRUtils:
         config = Cfg.load_config_from_name(modelConfig)
         if modelWeight and modelWeight.strip():  
             config['weights'] = modelWeight
-        config['cnn']['pretrained']=modelPretrained
+        config['cnn']['pretrained'] = modelPretrained
         config['device'] = device
         print(config)
         return config
@@ -38,6 +38,6 @@ class VietOCRUtils:
         return self.predictor.predict(img, return_prob=True) # đối với muốn lấy trả về xác xuất dự đoán
     
     def predictImage(self, image):
-        img = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))           
+        # img = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))           
         return self.predictor.predict(img, return_prob=True) # đối với muốn lấy trả về xác xuất dự đoán
     
