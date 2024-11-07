@@ -19,12 +19,20 @@ from dto.imageUploadDto import ImageUploadDTO
 
 from utils.loggerUtils import Logger
 
+from handleDeeplearning.detectron.utils.detectronUtils import DetectronUtil
+from handleDeeplearning.vietocr.utils.vietOCRUils import VietOCRUtils
+
+import io
+
 logger = Logger(__name__)
 
 router = APIRouter(
     prefix="/example",
     tags=[""]
 )
+
+vietOCR = VietOCRUtils()
+detectron = DetectronUtil(vietOCR)
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
@@ -38,9 +46,11 @@ async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
         # Lưu tệp vào thư mục với chế độ nhị phân (binary)
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(dto.file.file, buffer)  # Sao chép dữ liệu tệp vào buffer
+            
+        result = detectron.getDetectedObjects(file_location)
 
         # Trả về thông tin về tệp đã tải lên
-        return {"filename": dto.file.filename, "file_location": file_location}
+        return {"result": result}
 
     except Exception as e:
         # Nếu có lỗi, trả về phản hồi lỗi

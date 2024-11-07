@@ -69,26 +69,26 @@ class DetectronUtil:
         
         return boxes, scores, classes, masks
 
-    def getDetectedObjects(self, image_path):
-        """Get bounding boxes, labels, and scores for detected objects."""
-        boxes, scores, classes, masks = self.detectObjects(image_path)
-        objects = []
-        for i in range(len(classes)):
-            obj = {
-                "box": boxes[i].tensor.numpy().tolist(),
-                "score": scores[i].item(),
-                "class": MetadataCatalog.get(self.config.DATASETS.TRAIN[0]).thing_classes[classes[i]],
-                "classId": MetadataCatalog.get(self.config.DATASETS.TRAIN[0]).thing_classes[classes[i]]
-            }
-            objects.append(obj)
-        return objects
+    # def getDetectedObjects(self, image_path):
+    #     """Get bounding boxes, labels, and scores for detected objects."""
+    #     boxes, scores, classes, masks = self.detectObjects(image_path)
+    #     objects = []
+    #     for i in range(len(classes)):
+    #         obj = {
+    #             "box": boxes[i].tensor.numpy().tolist(),
+    #             "score": scores[i].item(),
+    #             "class": MetadataCatalog.get(self.config.DATASETS.TRAIN[0]).thing_classes[classes[i]],
+    #             "classId": MetadataCatalog.get(self.config.DATASETS.TRAIN[0]).thing_classes[classes[i]]
+    #         }
+    #         objects.append(obj)
+    #     return objects
     
-    def detectAC(self, imagePath):
+    def getDetectedObjects(self, imagePath):
         import cv2
         from PIL import Image
         
         im = cv2.imread(imagePath)
-        boxes, scores, classes, masks = self.detectObjects(im);
+        boxes, scores, classes, masks = self.detectObjects(imagePath);
 
         output_json = []
         for i in range(len(masks)):

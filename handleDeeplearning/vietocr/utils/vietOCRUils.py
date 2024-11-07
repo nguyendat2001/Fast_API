@@ -2,7 +2,7 @@ from PIL import Image
 import cv2 
 
 class VietOCRUtils:
-    def __init__(self, model_path):
+    def __init__(self):
         self.config_path = "/cfg/vietOCRConfig.json"
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
