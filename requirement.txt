@@ -1,4 +1,7 @@
 fastapi
 uvicorn
 vietocr
-
+python-multipart
+python-dotenv 
+pydantic
+pydantic-settings

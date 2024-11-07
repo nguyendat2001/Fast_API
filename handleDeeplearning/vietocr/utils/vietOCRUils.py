@@ -26,6 +26,7 @@ class VietOCRUtils:
             config['weights'] = modelWeight
         config['cnn']['pretrained']=modelPretrained
         config['device'] = device
+        print(config)
         return config
         
     def loadPredictor(self):
