@@ -34,7 +34,7 @@ router = APIRouter(
 vietOCR = VietOCRUtils()
 detectron = DetectronUtil(vietOCR)
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_200_OK)
 async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
     try:
         upload_dir = "uploaded_files"
@@ -50,7 +50,8 @@ async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
         result = detectron.getDetectedObjects(file_location)
 
         # Trả về thông tin về tệp đã tải lên
-        return {"result": result}
+        return CoreResponseDto("success",status.HTTP_200_OK,"Operation completed successfully.",result)
+        # return {"result": result}
 
     except Exception as e:
         # Nếu có lỗi, trả về phản hồi lỗi
