@@ -96,7 +96,7 @@ class DetectronUtil:
     #         objects.append(obj)
     #     return objects
     
-    def getDetectedObjects(self, imagePath):
+    def getDetectedObjects(self, imagePath, classIdExtract):
         import cv2
         from PIL import Image
         
@@ -108,7 +108,8 @@ class DetectronUtil:
             box = boxes[i].tensor.numpy()[0]  # Chuyển bounding box sang numpy array
             class_id = classes[i].item()  # Lấy ID của class
             score = scores[i].item()  # Lấy confidence score
-            if class_id in self.classIdExtract:
+            # if self.classIdExtract.:
+            if class_id in classIdExtract:
                 # Lấy vùng chứa đối tượng từ bounding box
                 x1, y1, x2, y2 = box.astype(int)
                 cropped_image = im[y1:y2, x1:x2]  # Cắt ảnh dựa trên bounding box

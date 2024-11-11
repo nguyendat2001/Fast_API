@@ -48,8 +48,10 @@ async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
         # Lưu tệp vào thư mục với chế độ nhị phân (binary)
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(dto.file.file, buffer)  # Sao chép dữ liệu tệp vào buffer
-            
-        result = detectron.getDetectedObjects(file_location)
+          
+        CLASS_ID_EXTRACT= [0,1,2,3,4,5,6,7,8,9,10,11,12]
+        result = detectron.getDetectedObjects(file_location,CLASS_ID_EXTRACT)  
+        # result = detectron.getDetectedObjects(file_location)
 
         # Trả về thông tin về tệp đã tải lên
         return CoreResponseDto(
