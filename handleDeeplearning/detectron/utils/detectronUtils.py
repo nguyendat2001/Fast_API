@@ -1,3 +1,4 @@
+import os
 import json
 import detectron2
 from detectron2.utils.logger import setup_logger
@@ -12,8 +13,10 @@ from handleDeeplearning.detectron.utils.dataHandle import registerMetaData
 from utils.getEnvSetting import settings
 
 class DetectronUtil:
-    def __init__(self, vietOCR):
-        self.config_path = settings.ROOT_PATH +"/cfg/detectronConfig.json"
+    def __init__(self, vietOCR, config_path):
+        # if not config_path:
+        self.config_path = os.path.join(settings.ROOT_PATH, config_path if config_path else "/cfg/idCard/", "detectronConfig.json")
+        registerMetaData(os.path.join(settings.ROOT_PATH, config_path, '/_annotations.coco.json'))
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
         
@@ -25,6 +28,8 @@ class DetectronUtil:
             self.ocrModel = vietOCR
         else:
             self.ocrModel = VietOCRUtils()
+        
+        self.classIdExtract = []
             
         
     def loadConfig(self):
@@ -39,6 +44,8 @@ class DetectronUtil:
         modelWeight = config_dict.get("MODEL", {}).get("WEIGHT", "/handleDeeplearning/detectron/weights/weights.pth")
         numClass = config_dict.get("MODEL", {}).get("NUMCLASSES", 12)
         scoreThresh = config_dict.get("MODEL", {}).get("ROI_HEADS", {}).get("SCORE_THRESH_TEST", 0.5)
+        
+        self.classIdExtract = config_dict.get("MODEL", {}).get("CLASS_ID_EXTRACT", [])
         
         cfg = get_cfg()
         cfg.merge_from_file(model_zoo.get_config_file(modelName))
@@ -99,26 +106,26 @@ class DetectronUtil:
             box = boxes[i].tensor.numpy()[0]  # Chuyển bounding box sang numpy array
             class_id = classes[i].item()  # Lấy ID của class
             score = scores[i].item()  # Lấy confidence score
-            
-            # Lấy vùng chứa đối tượng từ bounding box
-            x1, y1, x2, y2 = box.astype(int)
-            cropped_image = im[y1:y2, x1:x2]  # Cắt ảnh dựa trên bounding box
+            if class_id in self.classIdExtract:
+                # Lấy vùng chứa đối tượng từ bounding box
+                x1, y1, x2, y2 = box.astype(int)
+                cropped_image = im[y1:y2, x1:x2]  # Cắt ảnh dựa trên bounding box
 
-            # Áp dụng mask để giữ lại chỉ vùng đối tượng trong bounding box
-            masked_segment = cv2.bitwise_and(cropped_image, cropped_image, mask=mask[y1:y2, x1:x2].astype("uint8"))
-            
-            masked_segment_pil = Image.fromarray(cv2.cvtColor(masked_segment, cv2.COLOR_BGR2RGB))
-            # using vietOCR to predict text
-            text, text_score = self.ocrModel.predictImage(masked_segment_pil)
-        #     print(masked_segment)
-            output_json.append({
-                "box": [int(x1), int(y1), int(x2), int(y2)],
-                "text": text,
-                "label_name": self.classnames[class_id],
-                "label_id": class_id,
-                "box_confidence_score": f"{score:.2f}" ,
-                "text_confidence_score": f"{text_score:.2f}" 
-            })
+                # Áp dụng mask để giữ lại chỉ vùng đối tượng trong bounding box
+                masked_segment = cv2.bitwise_and(cropped_image, cropped_image, mask=mask[y1:y2, x1:x2].astype("uint8"))
+                
+                masked_segment_pil = Image.fromarray(cv2.cvtColor(masked_segment, cv2.COLOR_BGR2RGB))
+                # using vietOCR to predict text
+                text, text_score = self.ocrModel.predictImage(masked_segment_pil)
+            #     print(masked_segment)
+                output_json.append({
+                    "box": [int(x1), int(y1), int(x2), int(y2)],
+                    "text": text,
+                    "label_name": self.classnames[class_id],
+                    "label_id": class_id,
+                    "box_confidence_score": f"{score:.2f}" ,
+                    "text_confidence_score": f"{text_score:.2f}" 
+                })
         return output_json
     
     def saveDetectedObjects(self, image_path, output_path):

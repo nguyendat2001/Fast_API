@@ -1,0 +1,18 @@
+{
+    "MODEL": {
+        "ROI_HEADS": {
+            "SCORE_THRESH_TEST": 0.5
+        },
+        "DEVICE": "gpu",
+        "NAME": "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml",
+        "WEIGHT": "/content/drive/MyDrive/data/models/document_detectron.pth",
+        "NUMCLASSES": 12,
+        "CLASSNAMES": ["main_box","department_provided_detail","crop_num_detail",
+            "first_reg_date","replace_date","com_info","vi_name","en_name",
+            "sb_name","com_address","main_address","com_value","department_provided",
+            "crop_num","first_reg_date_detail","replace_date_detail",
+            "vi_name_detail","en_name_detail","sb_name_detail",
+            "main_address_detail","com_address"],
+        "CLASS_ID_EXTRACT": [1,2,14,15,16,17,18,19]
+    }
+}

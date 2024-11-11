@@ -27,17 +27,19 @@ import io
 logger = Logger(__name__)
 
 router = APIRouter(
-    prefix="/example",
+    prefix="/document",
     tags=[""]
 )
 
-vietOCR = VietOCRUtils()
-detectron = DetectronUtil(vietOCR)
+configPath = "/cfg/document/"
 
-@router.post("/", status_code=status.HTTP_200_OK)
+vietOCR = VietOCRUtils()
+detectron = DetectronUtil(vietOCR, configPath)
+
+@router.post("/predict", status_code=status.HTTP_200_OK)
 async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
     try:
-        upload_dir = "uploaded_files"
+        upload_dir = "uploaded_files/documents"
         os.makedirs(upload_dir, exist_ok=True)
 
         # Đặt tên tệp lưu trữ

@@ -5,7 +5,7 @@ import uvicorn
 
 from fastapi import FastAPI
 
-from controllers import example
+from controllers import idCard
 from middlewares import corsMiddlewares
 from middlewares import staticMiddlewares
 
@@ -18,7 +18,7 @@ if not os.path.exists("static"):
     os.makedirs("static")
 
 app = FastAPI()
-app.include_router(example.router)
+app.include_router(idCard.router)
 
 corsMiddlewares.add(app)
 staticMiddlewares.add(app)
