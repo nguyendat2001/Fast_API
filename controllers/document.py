@@ -31,10 +31,10 @@ router = APIRouter(
     tags=[""]
 )
 
-configPath = "/cfg/document/"
+configPath = "cfg/document/"
 
 vietOCR = VietOCRUtils()
-detectron = DetectronUtil(vietOCR, configPath)
+detectron = DetectronUtil(vietOCR, configPath,"document")
 
 @router.post("/predict", status_code=status.HTTP_200_OK)
 async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):

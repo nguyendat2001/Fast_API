@@ -6,7 +6,7 @@ from detectron2.data import MetadataCatalog, DatasetCatalog
 
 from utils.getEnvSetting import settings
 
-def registerMetaData(json_file_path):
+def registerMetaData(json_file_path, name):
     # Xóa tất cả dataset và metadata đã đăng ký trước đó
     DatasetCatalog.clear()
     MetadataCatalog.clear()
@@ -20,7 +20,7 @@ def registerMetaData(json_file_path):
 
     nc = len(category_names)
     names = category_names  # Giả sử category_names đã được định nghĩa trước đó
-    d = "test"
+    d = name
     DatasetCatalog.register(d, lambda d=d: annotations)  # Đăng ký với chú thích tương ứng
     MetadataCatalog.get(d).set(thing_classes=names)
 

@@ -1,11 +1,12 @@
 from PIL import Image
 import cv2 
+import os
 
 from utils.getEnvSetting import settings
 
 class VietOCRUtils:
     def __init__(self):
-        self.config_path = settings.ROOT_PATH + "/cfg/vietOCRConfig.json"
+        self.config_path = os.path.join(settings.ROOT_PATH, "cfg/vietOCRConfig.json")
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
     

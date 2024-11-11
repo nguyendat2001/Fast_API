@@ -13,15 +13,15 @@ from handleDeeplearning.detectron.utils.dataHandle import registerMetaData
 from utils.getEnvSetting import settings
 
 class DetectronUtil:
-    def __init__(self, vietOCR, config_path):
+    def __init__(self, vietOCR, config_path, name):
         # if not config_path:
-        self.config_path = os.path.join(settings.ROOT_PATH, config_path if config_path else "/cfg/idCard/", "detectronConfig.json")
-        registerMetaData(os.path.join(settings.ROOT_PATH, config_path, '/_annotations.coco.json'))
+        self.config_path = os.path.join(settings.ROOT_PATH, config_path if config_path else "cfg/idCard/", "detectronConfig.json")
+        registerMetaData(os.path.join(settings.ROOT_PATH, config_path if config_path else "cfg/idCard/", '_annotations.coco.json'))
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
         
         # Lấy metadata cho training dataset
-        self.metaData = MetadataCatalog.get("test")
+        self.metaData = MetadataCatalog.get(name)
         self.classnames = self.metaData.thing_classes
         self.numclass = len(self.classnames)
         if vietOCR is not None:  # Changed null to None
