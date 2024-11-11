@@ -15,8 +15,8 @@ from utils.getEnvSetting import settings
 class DetectronUtil:
     def __init__(self, vietOCR, config_path, name):
         # if not config_path:
-        self.config_path = os.path.join(settings.ROOT_PATH, config_path if config_path else "cfg/idCard/", "detectronConfig.json")
-        registerMetaData(os.path.join(settings.ROOT_PATH, config_path if config_path else "cfg/idCard/", '_annotations.coco.json'))
+        self.config_path = os.path.join(config_path if config_path else "cfg/idCard/", "detectronConfig.json")
+        registerMetaData(os.path.join(config_path if config_path else "cfg/idCard/", '_annotations.coco.json'),name)
         self.config = self.loadConfig()
         self.predictor = self.loadPredictor()
         
