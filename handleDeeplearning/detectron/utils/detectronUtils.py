@@ -46,6 +46,8 @@ class DetectronUtil:
         scoreThresh = config_dict.get("MODEL", {}).get("ROI_HEADS", {}).get("SCORE_THRESH_TEST", 0.5)
         
         self.classIdExtract = config_dict.get("MODEL", {}).get("CLASS_ID_EXTRACT", [])
+        if not all(isinstance(i, int) for i in self.classIdExtract):
+            raise ValueError("CLASS_ID_EXTRACT phải là một mảng chứa các số nguyên.")
         
         cfg = get_cfg()
         cfg.merge_from_file(model_zoo.get_config_file(modelName))
