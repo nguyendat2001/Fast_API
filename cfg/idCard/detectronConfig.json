@@ -6,7 +6,7 @@
         "DEVICE": "gpu",
         "NAME": "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml",
         "WEIGHT": "/content/drive/MyDrive/data/models/idcard_detectron.pth",
-        "NUMCLASSES": 12,
+        "NUMCLASSES": 21,
         "CLASSNAMES": ["CCCD","date_of_birth","date_of_expiry","gender",
                 "hometown","hometown_2","id","image","name","nation","permanent_residence",
                 "permanent_residence_1","permanent_residence_2"],
