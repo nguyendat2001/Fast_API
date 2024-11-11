@@ -52,7 +52,13 @@ async def upload_image(dto: Annotated[ImageUploadDTO, Form()]):
         result = detectron.getDetectedObjects(file_location)
 
         # Trả về thông tin về tệp đã tải lên
-        return CoreResponseDto("success",status.HTTP_200_OK,"Operation completed successfully.",result)
+        return CoreResponseDto(
+            status="success",
+            code=status.HTTP_200_OK,
+            message="Operation completed successfully.",
+            data=result
+        )
+
         # return {"result": result}
 
     except Exception as e:
