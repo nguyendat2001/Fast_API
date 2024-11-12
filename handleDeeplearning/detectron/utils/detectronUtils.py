@@ -129,6 +129,7 @@ class DetectronUtil:
                     "box_confidence_score": f"{score:.2f}" ,
                     "text_confidence_score": f"{text_score:.2f}" 
                 })
+        output_json.sort(key=lambda item: item["label_id"])
         return output_json
     
     def saveDetectedObjects(self, image_path, output_path):
