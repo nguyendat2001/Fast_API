@@ -33,7 +33,7 @@ unit_ocr = Unit_OCR(llm_json, "", llama_Index_key)
 
 
 @router.post("/tam_anh", status_code=status.HTTP_200_OK)
-async def hos_tam_anh(data: ArrayImageUploadDTO):
+async def hos_tam_anh(data: Annotated[ArrayImageUploadDTO, Form()]):
     try:
         upload_dir = "uploaded_files/invoive/tamanhs"
         os.makedirs(upload_dir, exist_ok=True)
@@ -68,7 +68,7 @@ async def hos_tam_anh(data: ArrayImageUploadDTO):
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
     
 @router.post("/hos_110", status_code=status.HTTP_200_OK)
-async def hos_110(data: ArrayImageUploadDTO):
+async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
     try:
         upload_dir = "uploaded_files/invoive/hos_108"
         os.makedirs(upload_dir, exist_ok=True)

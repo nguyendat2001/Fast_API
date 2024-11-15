@@ -1,12 +1,12 @@
 prompt = """lưu ý không sử dụng kiến thức cá nhân để trả lời câu hỏi mà phải dựa vào nội dung context: {context}
-              . hãy truy xuất thông tin các thông tin sau và trường nào không có thông tin cứ để null:
+              . hãy truy xuất thông tin các thông tin sau và trường nào không có thông tin cứ để null chứ đừng để [redacted]:
               - MS(mẫu số)
               - ma_so_nguoi_benh(mã số người bệnh)
               - so_kham_benh(số khám bệnh)
               - ma_benh_an(mã bệnh án)
               - Ho_ten((1)họ tên người bệnh)
               - ngay_sinh(ngày tháng năm sinh)
-              - Gioi_tinh(giới tính)
+              - Gioi_tinh(giới tính: nam hoặc nữ)
               - Dia_chi((2)địa chỉ hiện tại)
               - ma_khu_vuc((3)mã khu vực(K1/K2/K3))
               - ma_the_BHYT((4)mã thẻ BHYT)

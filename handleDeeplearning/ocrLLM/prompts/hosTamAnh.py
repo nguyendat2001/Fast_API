@@ -1,5 +1,5 @@
 prompt = """lưu ý không sử dụng kiến thức cá nhân để trả lời câu hỏi mà phải dựa vào nội dung context: {context}
-              . hãy truy xuất thông tin các thông tin sau :
+              . hãy truy xuất thông tin các thông tin sau và trường nào không có thông tin cứ để null chứ đừng để [redacted]:
               - MS(mã)
               - so_hieu(số hiệu)
               - ma_so(mã số)
