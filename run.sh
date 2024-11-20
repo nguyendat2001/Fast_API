@@ -1,1 +1,3 @@
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+# !chmod +x run.sh
+# !./your_script.sh
+python main.py

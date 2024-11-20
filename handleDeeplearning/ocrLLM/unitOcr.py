@@ -253,7 +253,7 @@ class Unit_OCR():
           if "cộng:" in item.lower():  # Kiểm tra nếu dòng chứa từ "Cộng:"
               endTableFlag = True  # Đánh dấu flag kết thúc bảng
       table = [[y.strip() for y in x.split('|')[1:-1]] for x in table]
-      template = self.init_prompt_template_108_hos(content)
+      template = self.init_prompt_template_110_hos(content)
       resp = self.send_message(template)
       json_resp = json.loads(resp.message.content)
       json_resp["table_content"] = table
