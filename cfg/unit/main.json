@@ -1,0 +1,19 @@
+{
+    "MODEL": {
+        "TEXT_DETECTION": {
+            "SCORE_THRESH_TEST": 0.5,
+            "WEIGHT":"",
+            "MODEL":"COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
+        },
+        "CELL_TEXT_DETECTION": {
+            "SCORE_THRESH_TEST": 0.5,
+            "WEIGHT":"",
+            "MODEL":"COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
+        },
+        "DOC_STRUCTURE_DETECTION": {
+            "SCORE_THRESH_TEST": 0.5,
+            "WEIGHT":"",
+            "MODEL":"COCO-Detection/faster_rcnn_R_101_FPN_3x.yaml"
+        }
+    }
+}

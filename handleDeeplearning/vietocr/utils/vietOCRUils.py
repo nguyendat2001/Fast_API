@@ -41,4 +41,7 @@ class VietOCRUtils:
     def predictImage(self, image):
         # img = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
         return self.predictor.predict(image, return_prob=True) # đối với muốn lấy trả về xác xuất dự đoán
-    
+
+    def predict_batch(self, arrayImage, return_prob=True):
+        return self.predictor.predict_batch(arrayImage, return_prob)
+

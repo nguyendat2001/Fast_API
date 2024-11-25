@@ -288,4 +288,21 @@ class Unit_OCR():
       json_resp = json.loads(resp.message.content)
       json_resp["table_content"] = table
       return json_resp
-
+    
+    def inferenceHos110WithOutParse(self, context):
+      template = self.init_prompt_template_110_hos(content)
+      resp = self.send_message(template)
+      json_resp = json.loads(resp.message.content)
+      return json_resp
+    
+    def inferenceHos108WithOutParse(self, context):
+      template = self.init_prompt_template_108_hos(content)
+      resp = self.send_message(template)
+      json_resp = json.loads(resp.message.content)
+      return json_resp
+    
+    def inferenceHosTamAnhWithOutParse(self, context):
+      template = self.init_prompt_template_tam_anh(content)
+      resp = self.send_message(template)
+      json_resp = json.loads(resp.message.content)
+      return json_resp
