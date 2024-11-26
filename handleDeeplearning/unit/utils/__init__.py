@@ -532,7 +532,7 @@ def get_raw_text(cell_images, row_im, outputs, cell_to_texts, confidents, viet_o
 
     return raw_text
 
-def table_infor_extraction(row_images, table_cell_detector, viet_ocr):
+def table_infor_extraction(row_images, table_cell_detector, viet_ocr, metaData_table_cell):
     table_data = []
     for row_im in row_images:
         outputs, cell_to_texts, abc , _, confidents = BOUNDING_BOX_EXTRACTION(row_im, table_cell_detector, metaData_table_cell, False)

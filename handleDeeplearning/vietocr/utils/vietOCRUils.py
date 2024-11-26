@@ -34,11 +34,11 @@ class VietOCRUtils:
         from vietocr.tool.predictor import Predictor as VietOcr_Predictor
         return VietOcr_Predictor(self.config)
     
-    def predict(self, imagePath):
+    def predict(self, imagePath:str):
         img = Image.open(imagePath)
         return self.predictor.predict(img, return_prob=True) # đối với muốn lấy trả về xác xuất dự đoán
     
-    def predictImage(self, image):
+    def predict(self, image):
         # img = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
         return self.predictor.predict(image, return_prob=True) # đối với muốn lấy trả về xác xuất dự đoán
 

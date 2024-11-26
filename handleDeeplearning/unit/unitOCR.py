@@ -10,7 +10,7 @@ from detectron2.data import MetadataCatalog, DatasetCatalog
 
 class unitOCR():
     def __init__(self, vietOCR, text_detection_anotation, doc_structure_anotation, table_cell_anotation):
-        if vietOCR is not None: 
+        if vietOCR is not None:
             self.vietOCR = vietOCR
         else:
             self.vietOCR = VietOCRUtils()
@@ -35,22 +35,21 @@ class unitOCR():
             config_dict = json.load(f)
 
         text_detector_score_thresh = config_dict.get("MODEL", {}).get("TEXT_DETECTION", {}).get("SCORE_THRESH_TEST", 0.5)
-        doc_structure_detector_score_thresh = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("SCORE_THRESH_TEST", 0.5)
-        table_cell_detector_score_thresh = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("SCORE_THRESH_TEST", 0.5)
+        doc_structure_detector_score_thresh = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("SCORE_THRESH_TEST", 0.5)
+        table_cell_detector_score_thresh = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("SCORE_THRESH_TEST", 0.5)
         
         text_detector_weight = config_dict.get("MODEL", {}).get("TEXT_DETECTION", {}).get("WEIGHT")
-        doc_structure_detector_weight = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("WEIGHT")
-        table_cell_detector_weight = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("WEIGHT")
+        doc_structure_detector_weight = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("WEIGHT")
+        table_cell_detector_weight = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("WEIGHT")
         
         text_detector_model = config_dict.get("MODEL", {}).get("TEXT_DETECTION", {}).get("MODEL")
-        doc_structure_detector_model = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("MODEL")
-        table_cell_detector_model = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("MODEL")
+        doc_structure_detector_model = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("MODEL")
+        table_cell_detector_model = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("MODEL")
         
         self.text_detector = initDetectronPredictor(text_detector_model, text_detector_weight, text_detector_score_thresh, self.metaData_text_detection)
         self.doc_structure_detector = initDetectronPredictor(doc_structure_detector_model, doc_structure_detector_weight, doc_structure_detector_score_thresh, self.metaData_doc_structure)
         self.table_cell_detector = initDetectronPredictor(table_cell_detector_model, table_cell_detector_weight, table_cell_detector_score_thresh, self.metaData_table_cell)
     
-
     def predict(self, image_arrays):
         header_text = []
         sumary_text = []
@@ -70,7 +69,7 @@ class unitOCR():
             classname = ["sumary"]
             sumary_text_images = get_cropped_images_by_classnames_with_metadata(im, outputs, classname, self.metaData_doc_structure)
             
-            table_raw_data += table_infor_extraction(row_images, self.table_cell_detector, self.vietOCR)
+            table_raw_data += table_infor_extraction(row_images, self.table_cell_detector, self.vietOCR, self.metaData_table_cell)
             
             # get text from header, sumary and sub_head_box
             sorted_text_crops = detect_and_sort_crops(head_text_images, self.text_detector, 20)
