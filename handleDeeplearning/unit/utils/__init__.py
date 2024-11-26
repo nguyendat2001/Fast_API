@@ -7,6 +7,7 @@ setup_logger()
 import numpy as np
 import os, json, cv2, random
 import matplotlib.pyplot as plt
+from PIL import Image
 # %matplotlib inline
 
 # detectron2 utilities

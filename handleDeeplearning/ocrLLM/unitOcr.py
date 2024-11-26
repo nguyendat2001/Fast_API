@@ -290,19 +290,19 @@ class Unit_OCR():
       return json_resp
     
     def inferenceHos110WithOutParse(self, context):
-      template = self.init_prompt_template_110_hos(content)
+      template = self.init_prompt_template_110_hos(context)
       resp = self.send_message(template)
       json_resp = json.loads(resp.message.content)
       return json_resp
     
     def inferenceHos108WithOutParse(self, context):
-      template = self.init_prompt_template_108_hos(content)
+      template = self.init_prompt_template_108_hos(context)
       resp = self.send_message(template)
       json_resp = json.loads(resp.message.content)
       return json_resp
     
     def inferenceHosTamAnhWithOutParse(self, context):
-      template = self.init_prompt_template_tam_anh(content)
+      template = self.init_prompt_template_tam_anh(context)
       resp = self.send_message(template)
       json_resp = json.loads(resp.message.content)
       return json_resp

@@ -1,6 +1,7 @@
-import os, json
+import os, json, cv2
 from handleDeeplearning.detectron.utils.dataHandle import registerMetaData
-from handleDeeplearning.unit.utils import  ( initDetectronPredictor, 
+from handleDeeplearning.unit.utils import  ( table_infor_extraction,
+                                            initDetectronPredictor, 
                                             BOUNDING_BOX_EXTRACTION, 
                                             get_cropped_images_by_classnames_with_metadata, 
                                             detect_and_sort_crops, 
@@ -17,7 +18,6 @@ class unitOCR():
         name_text_detection = "text_detection"
         registerMetaData(text_detection_anotation, name_text_detection)
         self.metaData_text_detection = MetadataCatalog.get(name_text_detection)
-
 
         name_doc_structure = "doc_structure"
         registerMetaData(doc_structure_anotation, name_doc_structure)
@@ -46,7 +46,7 @@ class unitOCR():
         doc_structure_detector_model = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("MODEL")
         table_cell_detector_model = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("MODEL")
         
-        self.text_detector = initDetectronPredictor( text_detector_model, text_detector_weight, text_detector_score_thresh, self.metaData_text_detection)
+        self.text_detector = initDetectronPredictor(text_detector_model, text_detector_weight, text_detector_score_thresh, self.metaData_text_detection)
         self.doc_structure_detector = initDetectronPredictor(doc_structure_detector_model, doc_structure_detector_weight, doc_structure_detector_score_thresh, self.metaData_doc_structure)
         self.table_cell_detector = initDetectronPredictor(table_cell_detector_model, table_cell_detector_weight, table_cell_detector_score_thresh, self.metaData_table_cell)
     
@@ -70,13 +70,13 @@ class unitOCR():
             classname = ["sumary"]
             sumary_text_images = get_cropped_images_by_classnames_with_metadata(im, outputs, classname, self.metaData_doc_structure)
             
-            table_raw_data += table_infor_extraction(row_images, table_cell_detector, self.vietOCR)
+            table_raw_data += table_infor_extraction(row_images, self.table_cell_detector, self.vietOCR)
             
             # get text from header, sumary and sub_head_box
-            sorted_text_crops = detect_and_sort_crops(head_text_images, text_detector, 20)
+            sorted_text_crops = detect_and_sort_crops(head_text_images, self.text_detector, 20)
             head_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
 
-            sorted_text_crops = detect_and_sort_crops(sumary_text_images, text_detector, 20)
+            sorted_text_crops = detect_and_sort_crops(sumary_text_images, self.text_detector, 20)
             sumary_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
 
         return header_text, sumary_text, table_raw_data
