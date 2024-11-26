@@ -6,7 +6,7 @@ from handleDeeplearning.unit.utils import  ( initDetectronPredictor,
                                             get_texts_from_unmerge_image)
 
 
-class unitOCR:
+class unitOCR():
     def __init__(self, vietOCR, text_detection_anotation, doc_structure_anotation, table_cell_anotation):
         if vietOCR is not None: 
             self.vietOCR = vietOCR

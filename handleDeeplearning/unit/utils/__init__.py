@@ -7,7 +7,7 @@ setup_logger()
 import numpy as np
 import os, json, cv2, random
 import matplotlib.pyplot as plt
-%matplotlib inline
+# %matplotlib inline
 
 # detectron2 utilities
 from detectron2 import model_zoo
