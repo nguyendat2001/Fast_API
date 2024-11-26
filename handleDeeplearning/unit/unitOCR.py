@@ -6,6 +6,7 @@ from handleDeeplearning.unit.utils import  ( table_infor_extraction,
                                             get_cropped_images_by_classnames_with_metadata, 
                                             detect_and_sort_crops, 
                                             get_texts_from_unmerge_image)
+from handleDeeplearning.vietocr.utils.vietOCRUils import VietOCRUtils
 from detectron2.data import MetadataCatalog, DatasetCatalog
 
 class unitOCR():
