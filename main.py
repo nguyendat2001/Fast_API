@@ -7,7 +7,8 @@ from fastapi import FastAPI
 
 # from controllers import idCard
 # from controllers import document
-from controllers import hos_invoice
+# from controllers import hos_invoice
+from controllers import invoice_v2
 from middlewares import corsMiddlewares
 from middlewares import staticMiddlewares
 
@@ -22,7 +23,8 @@ if not os.path.exists("static"):
 app = FastAPI()
 # app.include_router(idCard.router)
 # app.include_router(document.router)
-app.include_router(hos_invoice.router)
+# app.include_router(hos_invoice.router)
+app.include_router(invoice_v2.router)
 
 corsMiddlewares.add(app)
 staticMiddlewares.add(app)

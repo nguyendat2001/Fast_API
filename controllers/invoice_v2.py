@@ -29,9 +29,9 @@ router = APIRouter(
     tags=[""]
 )
 
-text_detection_anotation = ""
-doc_structure_anotation = ""
-table_cell_anotation = ""
+text_detection_anotation = "/content/source_weight/meta_data/text_detection/_annotations.coco.json"
+doc_structure_anotation = "/content/source_weight/meta_data/doc_structure/_annotations.coco.json"
+table_cell_anotation = "/content/source_weight/meta_data/cell_text/_annotations.coco.json"
 
 # Đặt khóa vào biến
 llama_Index_key = "llx-aXbktTh1fLEFqo9flBkpZJUVYIeI25DIm9LKBkXr6A4ITGKY"
