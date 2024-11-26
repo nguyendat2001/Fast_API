@@ -37,7 +37,7 @@ table_cell_anotation = "/content/source_weight/meta_data/cell_text/_annotations.
 llama_Index_key = "llx-aXbktTh1fLEFqo9flBkpZJUVYIeI25DIm9LKBkXr6A4ITGKY"
 
 unit_ocr = Unit_OCR(llm_json, "", llama_Index_key)
-dlUnit = DeepLearningUnit(text_detection_anotation, doc_structure_anotation, table_cell_anotation)
+dlUnit = DeepLearningUnit(unit_ocr, text_detection_anotation, doc_structure_anotation, table_cell_anotation)
 
 @router.post("/tam_anh", status_code=status.HTTP_200_OK)
 async def hos_tam_anh(data: Annotated[ArrayImageUploadDTO, Form()]):
