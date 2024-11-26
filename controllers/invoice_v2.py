@@ -21,6 +21,7 @@ from handleDeeplearning.ocrLLM.unitOcr import llm_json, Unit_OCR
 from handleDeeplearning.unit.unitOCR import unitOCR as DeepLearningUnit
 
 # from handleDeeplearning.unit.unitOCR import unitOCR as DeepLearningUnit
+from utils.utils import convert_to_serializable
 
 logger = Logger(__name__)
 
@@ -63,7 +64,8 @@ async def hos_tam_anh(data: Annotated[ArrayImageUploadDTO, Form()]):
         header_text, sumary_text, table_raw_data = dlUnit.predict(array_img)
         json_output = unit_ocr.inferenceHosTamAnhWithOutParse("\n".join(header_text) + "\n" + "\n".join(sumary_text))
         # Trả về thông tin về tệp đã tải lên
-        json_output["table_content"] = table_raw_data
+
+        json_output["table_content"] = convert_to_serializable(table_raw_data)
 
         return CoreResponseDto(
             status="success",
@@ -101,7 +103,7 @@ async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
         header_text, sumary_text, table_raw_data = dlUnit.predict(array_img)
         json_output = unit_ocr.inferenceHos110WithOutParse("\n".join(header_text) + "\n" + "\n".join(sumary_text))
         # Trả về thông tin về tệp đã tải lên
-        json_output["table_content"] = table_raw_data
+        json_output["table_content"] = convert_to_serializable(table_raw_data)
 
         return CoreResponseDto(
             status="success",
@@ -139,7 +141,7 @@ async def hos_108(data: Annotated[ArrayImageUploadDTO, Form()]):
         header_text, sumary_text, table_raw_data = dlUnit.predict(array_img)
         json_output = unit_ocr.inferenceHos108WithOutParse("\n".join(header_text) + "\n" + "\n".join(sumary_text))
         # Trả về thông tin về tệp đã tải lên
-        json_output["table_content"] = table_raw_data
+        json_output["table_content"] = convert_to_serializable(table_raw_data)
 
         return CoreResponseDto(
             status="success",

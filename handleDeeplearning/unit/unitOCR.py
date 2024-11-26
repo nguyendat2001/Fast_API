@@ -22,7 +22,7 @@ class unitOCR():
         config['cnn']['pretrained']=True
         config['device'] = 'cuda:0'
 
-        viet_ocr = VietOcr_Predictor(config)
+        self.vietOCR = VietOcr_Predictor(config)
         
         name_text_detection = "text_detection"
         registerMetaData(text_detection_anotation, name_text_detection)
@@ -83,7 +83,7 @@ class unitOCR():
             # get text from header, sumary and sub_head_box
             sorted_text_crops = detect_and_sort_crops(head_text_images, self.text_detector, 20)
             head_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
-            header_text + = head_array_texts
+            header_text += head_array_texts
             
             sorted_text_crops = detect_and_sort_crops(sumary_text_images, self.text_detector, 20)
             sumary_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)

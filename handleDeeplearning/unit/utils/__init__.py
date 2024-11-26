@@ -527,8 +527,14 @@ def get_raw_text(cell_images, row_im, outputs, cell_to_texts, confidents, viet_o
     for index, item in enumerate(cell_images):
         array_text = get_cropped_texts_by_cell(index, row_im, outputs, cell_to_texts)
         text = get_texts_from_cell_merge_images(array_text, viet_ocr)
-        raw_text.append({"confident": confidents[index],
-                         "text":text})
+        # raw_text.append({"confident": confidents[index],
+        #                  "text":text})
+        raw_text.append({
+            "cell": {
+                "confident": confidents[index],
+                "text": text
+            }
+        })
 
     return raw_text
 
