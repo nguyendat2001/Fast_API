@@ -4,7 +4,7 @@ from handleDeeplearning.unit.utils import  ( initDetectronPredictor,
                                             get_cropped_images_by_classnames_with_metadata, 
                                             detect_and_sort_crops, 
                                             get_texts_from_unmerge_image)
-
+from detectron2.data import MetadataCatalog, DatasetCatalog
 
 class unitOCR():
     def __init__(self, vietOCR, text_detection_anotation, doc_structure_anotation, table_cell_anotation):
