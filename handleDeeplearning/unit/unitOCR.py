@@ -8,13 +8,21 @@ from handleDeeplearning.unit.utils import  ( table_infor_extraction,
                                             get_texts_from_unmerge_image)
 from handleDeeplearning.vietocr.utils.vietOCRUils import VietOCRUtils
 from detectron2.data import MetadataCatalog, DatasetCatalog
+import matplotlib.pyplot as plt
+from PIL import Image
+
+from vietocr.tool.predictor import Predictor as VietOcr_Predictor
+from vietocr.tool.config import Cfg
 
 class unitOCR():
     def __init__(self, vietOCR, text_detection_anotation, doc_structure_anotation, table_cell_anotation):
-        if vietOCR is not None:
-            self.vietOCR = vietOCR
-        else:
-            self.vietOCR = VietOCRUtils()
+        
+        config = Cfg.load_config_from_name('vgg_transformer')
+        # config['weights'] = '/kaggle/input/d/minhwiner123/vietocrmodel/transformerocr.pth'
+        config['cnn']['pretrained']=True
+        config['device'] = 'cuda:0'
+
+        viet_ocr = VietOcr_Predictor(config)
         
         name_text_detection = "text_detection"
         registerMetaData(text_detection_anotation, name_text_detection)
@@ -75,10 +83,12 @@ class unitOCR():
             # get text from header, sumary and sub_head_box
             sorted_text_crops = detect_and_sort_crops(head_text_images, self.text_detector, 20)
             head_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
-
+            header_text + = head_array_texts
+            
             sorted_text_crops = detect_and_sort_crops(sumary_text_images, self.text_detector, 20)
             sumary_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
-
+            sumary_text += sumary_array_texts
+            
         return header_text, sumary_text, table_raw_data
     
     

@@ -116,7 +116,7 @@ async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
     
 @router.post("/hos_108", status_code=status.HTTP_200_OK)
-async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
+async def hos_108(data: Annotated[ArrayImageUploadDTO, Form()]):
     try:
         upload_dir = "uploaded_files/invoive/v2/hos_108"
         os.makedirs(upload_dir, exist_ok=True)
