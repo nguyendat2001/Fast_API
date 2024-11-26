@@ -1,3 +1,4 @@
+import os, json
 from handleDeeplearning.detectron.utils.dataHandle import registerMetaData
 from handleDeeplearning.unit.utils import  ( initDetectronPredictor, 
                                             BOUNDING_BOX_EXTRACTION, 
@@ -26,7 +27,8 @@ class unitOCR():
         registerMetaData(table_cell_anotation, name_table_cell)
         self.metaData_table_cell = MetadataCatalog.get(name_table_cell)
         
-        self.config_path = os.path.join(config_path if config_path else "cfg/unit/", "main.json")
+        # self.config_path = os.path.join(config_path if config_path else "cfg/unit/", "main.json")
+        self.config_path = os.path.join( "cfg/unit/", "main.json")
 
         # Đọc file JSON và chuyển thành dictionary
         with open(self.config_path, 'r') as f:
@@ -44,9 +46,9 @@ class unitOCR():
         doc_structure_detector_model = config_dict.get("MODEL", {}).get("CELL_TEXT_DETECTION", {}).get("MODEL")
         table_cell_detector_model = config_dict.get("MODEL", {}).get("DOC_STRUCTURE_DETECTION", {}).get("MODEL")
         
-        self.text_detector = initDetectronPredictor(text_detector_weight, text_detector_model, text_detector_score_thresh, self.metaData_text_detection)
-        self.doc_structure_detector = initDetectronPredictor(doc_structure_detector_weight, doc_structure_detector_model, doc_structure_detector_score_thresh, self.metaData_doc_structure)
-        self.table_cell_detector = initDetectronPredictor(table_cell_detector_weight, table_cell_detector_model, table_cell_detector_score_thresh, self.metaData_table_cell)
+        self.text_detector = initDetectronPredictor( text_detector_model, text_detector_weight, text_detector_score_thresh, self.metaData_text_detection)
+        self.doc_structure_detector = initDetectronPredictor(doc_structure_detector_model, doc_structure_detector_weight, doc_structure_detector_score_thresh, self.metaData_doc_structure)
+        self.table_cell_detector = initDetectronPredictor(table_cell_detector_model, table_cell_detector_weight, table_cell_detector_score_thresh, self.metaData_table_cell)
     
 
     def predict(self, image_arrays):
