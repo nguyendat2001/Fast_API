@@ -3,6 +3,7 @@ import shutil
 
 from datetime import datetime
 from datetime import timezone
+import time
 
 from fastapi import APIRouter
 from fastapi import HTTPException
@@ -49,7 +50,7 @@ async def hos_tam_anh(data: Annotated[ArrayImageUploadDTO, Form()]):
         # Xử lý mỗi tệp trong danh sách
         for idx, file in enumerate(files):
             # Tạo tên mới cho tệp để tránh trùng lặp (có thể sử dụng các phương pháp khác)
-            outPath = os.path.join(upload_dir, f"image_{idx+1}_{file.filename}")
+            outPath = os.path.join(upload_dir, f"image_{int(time.time())}_{file.filename}")
             
             # Đọc nội dung tệp và lưu vào đĩa
             content = await file.read()
@@ -87,7 +88,7 @@ async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
         # Xử lý mỗi tệp trong danh sách
         for idx, file in enumerate(files):
             # Tạo tên mới cho tệp để tránh trùng lặp (có thể sử dụng các phương pháp khác)
-            outPath = os.path.join(upload_dir, f"image_{idx+1}_{file.filename}")
+            outPath = os.path.join(upload_dir, f"image_{int(time.time())}_{file.filename}")
             
             # Đọc nội dung tệp và lưu vào đĩa
             content = await file.read()
@@ -125,7 +126,7 @@ async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
         # Xử lý mỗi tệp trong danh sách
         for idx, file in enumerate(files):
             # Tạo tên mới cho tệp để tránh trùng lặp (có thể sử dụng các phương pháp khác)
-            outPath = os.path.join(upload_dir, f"image_{idx+1}_{file.filename}")
+            outPath = os.path.join(upload_dir, f"image_{int(time.time())}_{file.filename}")
             
             # Đọc nội dung tệp và lưu vào đĩa
             content = await file.read()
