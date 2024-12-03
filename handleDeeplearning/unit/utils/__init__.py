@@ -563,7 +563,10 @@ def get_texts_from_cell_merge_images(cropped_texts, viet_ocr, return_prob=True):
         str: Đoạn văn bản dự đoán từ ảnh đã nối.
     """
     if not cropped_texts:
-        return ""
+        if return_prob:
+            return "", 1.0  # Trả về văn bản rỗng và xác suất 1.0
+        else:
+            return ""  # Trả về văn bản rỗng
 
     # Lấy chiều cao lớn nhất trong các ảnh (tránh thực hiện nhiều vòng lặp)
     max_height = max(img.shape[0] for img in cropped_texts)
@@ -577,15 +580,11 @@ def get_texts_from_cell_merge_images(cropped_texts, viet_ocr, return_prob=True):
 
     # Dự đoán văn bản trực tiếp từ numpy array
     pil_image = Image.fromarray(cv2.cvtColor(combined_image, cv2.COLOR_BGR2RGB))  # Đổi BGR thành RGB
-    if return_prob: 
-        predicted_text, score = viet_ocr.predict(pil_image, return_prob)
-        return predicted_text, score
-    else :
-        predicted_text = viet_ocr.predict(pil_image, return_prob)
-        return predicted_text
+    return viet_ocr.predict(pil_image, return_prob)
 
 
-def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16, return_prob=False):
+
+def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16, return_prob=True):
     """
     Dự đoán đoạn văn bản từ các ảnh text đã crop theo batch.
 
@@ -598,7 +597,10 @@ def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16, return_
         list: Danh sách các đoạn văn bản dự đoán từ từng ảnh.
     """
     if not cropped_texts:
-        return []
+        if return_prob:
+            return [],[]
+        else: 
+            return []
 
     # Chuyển đổi ảnh numpy sang định dạng PIL Image
     pil_images = [Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) for img in cropped_texts]

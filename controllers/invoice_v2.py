@@ -102,9 +102,10 @@ async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
             # Thêm đường dẫn của tệp vào danh sách
             array_img.append(outPath)
 
-        header_text, sumary_text, table_raw_data = dlUnit.predict(array_img)
+        header_text, sumary_text, table_raw_data, confident_scores = dlUnit.predict(array_img)
         json_output = unit_ocr.inferenceHos110WithOutParse("\n".join(header_text) + "\n" + "\n".join(sumary_text))
         # Trả về thông tin về tệp đã tải lên
+        json_output["confident_score"] = np.mean(confident_scores)
         json_output["table_content"] = convert_to_serializable(table_raw_data)
 
         return CoreResponseDto(
@@ -140,9 +141,10 @@ async def hos_108(data: Annotated[ArrayImageUploadDTO, Form()]):
             # Thêm đường dẫn của tệp vào danh sách
             array_img.append(outPath)
 
-        header_text, sumary_text, table_raw_data = dlUnit.predict(array_img)
+        header_text, sumary_text, table_raw_data, confident_scores = dlUnit.predict(array_img)
         json_output = unit_ocr.inferenceHos108WithOutParse("\n".join(header_text) + "\n" + "\n".join(sumary_text))
         # Trả về thông tin về tệp đã tải lên
+        json_output["confident_score"] = np.mean(confident_scores)
         json_output["table_content"] = convert_to_serializable(table_raw_data)
 
         return CoreResponseDto(
