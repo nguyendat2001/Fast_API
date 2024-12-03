@@ -63,11 +63,12 @@ class unitOCR():
         header_text = []
         sumary_text = []
         table_raw_data = []
+        confident_scores = []
         for item in image_arrays:
             im = cv2.imread(item)
             # outputs = BOUNDING_BOX_EXTRACTION(im, doc_structure_detector,metaData_doc_structure)
             
-            outputs, _, _, _, _ = BOUNDING_BOX_EXTRACTION(im, self.doc_structure_detector, self.metaData_doc_structure, True)
+            outputs, _, _, _, _ = BOUNDING_BOX_EXTRACTION(im, self.doc_structure_detector, self.metaData_doc_structure, False)
             
             classname = ["item"]
             row_images = get_cropped_images_by_classnames_with_metadata(im, outputs, classname, self.metaData_doc_structure)
@@ -82,13 +83,15 @@ class unitOCR():
             
             # get text from header, sumary and sub_head_box
             sorted_text_crops = detect_and_sort_crops(head_text_images, self.text_detector, 20)
-            head_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
+            head_array_texts, confident_score = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
             header_text += head_array_texts
+            confident_scores += confident_score
             
             sorted_text_crops = detect_and_sort_crops(sumary_text_images, self.text_detector, 20)
-            sumary_array_texts = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
+            sumary_array_texts, confident_score = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR)
             sumary_text += sumary_array_texts
+            confident_scores += confident_score
             
-        return header_text, sumary_text, table_raw_data
+        return header_text, sumary_text, table_raw_data, confident_scores
     
     

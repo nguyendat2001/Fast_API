@@ -526,12 +526,13 @@ def get_raw_text(cell_images, row_im, outputs, cell_to_texts, confidents, viet_o
     raw_text = []
     for index, item in enumerate(cell_images):
         array_text = get_cropped_texts_by_cell(index, row_im, outputs, cell_to_texts)
-        text = get_texts_from_cell_merge_images(array_text, viet_ocr)
+        text, score = get_texts_from_cell_merge_images(array_text, viet_ocr, True)
         # raw_text.append({"confident": confidents[index],
         #                  "text":text})
         raw_text.append({
             "cell": {
-                "confident": confidents[index],
+                # "confident": confidents[index],
+                "confident": score,
                 "text": text
             }
         })
@@ -550,7 +551,7 @@ def table_infor_extraction(row_images, table_cell_detector, viet_ocr, metaData_t
         table_data.append(raw_text)
     return table_data
 
-def get_texts_from_cell_merge_images(cropped_texts, viet_ocr):
+def get_texts_from_cell_merge_images(cropped_texts, viet_ocr, return_prob=True):
     """
     Dự đoán đoạn văn bản từ các ảnh text đã crop, sau khi nối ảnh từ trái sang phải.
 
@@ -576,12 +577,15 @@ def get_texts_from_cell_merge_images(cropped_texts, viet_ocr):
 
     # Dự đoán văn bản trực tiếp từ numpy array
     pil_image = Image.fromarray(cv2.cvtColor(combined_image, cv2.COLOR_BGR2RGB))  # Đổi BGR thành RGB
-    predicted_text = viet_ocr.predict(pil_image)
+    if return_prob: 
+        predicted_text, score = viet_ocr.predict(pil_image, return_prob)
+        return predicted_text, score
+    else :
+        predicted_text = viet_ocr.predict(pil_image, return_prob)
+        return predicted_text
 
-    return predicted_text
 
-
-def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16):
+def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16, return_prob=False):
     """
     Dự đoán đoạn văn bản từ các ảnh text đã crop theo batch.
 
@@ -598,5 +602,4 @@ def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16):
 
     # Chuyển đổi ảnh numpy sang định dạng PIL Image
     pil_images = [Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) for img in cropped_texts]
-    batch_predictions = viet_ocr.predict_batch(pil_images)
-    return batch_predictions
+    return viet_ocr.predict_batch(pil_images, return_prob)
