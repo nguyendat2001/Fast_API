@@ -162,3 +162,45 @@ async def hos_108(data: Annotated[ArrayImageUploadDTO, Form()]):
         raise HTTPException(status_code=500, detail=f"An error occurred: {e}")
     
     
+@router.post("/hos_110/v3", status_code=status.HTTP_200_OK)
+async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
+    try:
+        upload_dir = "uploaded_files/invoive/v3/hos_110"
+        os.makedirs(upload_dir, exist_ok=True)
+        files = data.files
+        array_img = []
+
+        # Xử lý mỗi tệp trong danh sách
+        for idx, file in enumerate(files):
+            # Tạo tên mới cho tệp để tránh trùng lặp (có thể sử dụng các phương pháp khác)
+            outPath = os.path.join(upload_dir, f"image_{int(time.time())}_{file.filename}")
+            
+            # Đọc nội dung tệp và lưu vào đĩa
+            content = await file.read()
+            with open(outPath, "wb") as f:
+                f.write(content)
+            
+            # Thêm đường dẫn của tệp vào danh sách
+            array_img.append(outPath)
+
+        header_text, sub_header_text, sumary_text, table_raw_data, head_confident_scores, sub_head_confident_scores, sumary_confident_scores = dlUnit.predict_v3(array_img)
+        print("\n".join(header_text) )
+        print("\n".join(sumary_text) )
+        json_output = unit_ocr.inferenceHos110WithOutParse_v3("\n".join(header_text), "\n".join(sub_header_text), "\n".join(sumary_text))
+        # Trả về thông tin về tệp đã tải lên
+        json_output["head_confident_scores"] = np.mean(head_confident_scores)
+        json_output["sub_head_confident_scores"] = np.mean(sub_head_confident_scores)
+        json_output["sumary_confident_scores"] = np.mean(sumary_confident_scores)
+        json_output["table_content"] = convert_to_serializable(table_raw_data)
+
+        return CoreResponseDto(
+            status="success",
+            code=status.HTTP_200_OK,
+            message="Operation completed successfully.",
+            data=json_output
+        )
+
+    except Exception as e:
+        # Nếu có lỗi, trả về phản hồi lỗi
+        logger.ERROR("An error occurred: {e}")
+        raise HTTPException(status_code=500, detail=f"An error occurred: {e}")

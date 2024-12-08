@@ -380,7 +380,7 @@ def BOUNDING_BOX_EXTRACTION(im, predictor, metaData, is_plot_img:True):
     # Trả về outputs và các kết quả
     return outputs, cell_to_texts, ungrouped_texts, cropped_texts, confidents
 
-def get_cropped_images_by_classnames_with_metadata(im, outputs, classnames, metadata):
+def get_cropped_images_by_classnames_with_metadata(im, outputs, classnames, metadata, delta_y=10):
     """
     Lấy danh sách các ảnh crop theo nhiều class name, sử dụng metadata,
     và sắp xếp theo thứ tự từ trên xuống và trái sang phải (dựa trên trung điểm).
@@ -424,7 +424,7 @@ def get_cropped_images_by_classnames_with_metadata(im, outputs, classnames, meta
     # Sắp xếp theo y_mid trước và x_mid sau (với y cho phép chênh lệch 10px)
     cropped_boxes = sorted(
         cropped_boxes,
-        key=lambda b: (b["y_mid"] // 10, b["x_mid"])  # Chia y_mid theo nhóm khoảng cách 10px
+        key=lambda b: (b["y_mid"] // delta_y, b["x_mid"])  # Chia y_mid theo nhóm khoảng cách 10px
     )
 
     # Trích xuất các ảnh đã được crop từ danh sách sắp xếp

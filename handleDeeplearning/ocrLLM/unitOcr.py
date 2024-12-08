@@ -142,6 +142,10 @@ class Unit_OCR():
     def init_prompt_template_110_hos(self, content):
       # Replace context
       return hos110.prompt.format(context=content)
+    
+    def init_prompt_template_110_hos_v3(self, header, sub_header, sumary):
+          # Replace context
+      return hos110.header_prompt.format(context=header),hos110.sub_header_prompt.format(context=sub_header),hos110.sumary_prompt.format(context=sumary)
 
     def init_prompt_template_108_hos(self, content):
       return hos108.prompt.format(context=content)
@@ -294,6 +298,30 @@ class Unit_OCR():
       resp = self.send_message(template)
       json_resp = json.loads(resp.message.content)
       return json_resp
+    
+    def inferenceHos110WithOutParse_v3(self, header, sub_header, sumary):
+      header_template, sub_header_template, sumary_template = self.init_prompt_template_110_hos_v3(header, sub_header, sumary)
+      
+      header_resp = self.send_message(header_template)
+      sub_header_resp = self.send_message(sub_header_template)
+      sumary_resp = self.send_message(sumary_template)
+      
+      # Chuyển đổi từng phản hồi thành JSON
+      try:
+          header_json = json.loads(header_resp.message.content)
+          sub_header_json = json.loads(sub_header_resp.message.content)
+          sumary_json = json.loads(sumary_resp.message.content)
+      except json.JSONDecodeError as e:
+          raise ValueError(f"Lỗi khi parse JSON: {e}")
+      
+      # Gộp kết quả thành một dictionary
+      combined_json = {
+          "header": header_json,
+          "sub_header": sub_header_json,
+          "sumary": sumary_json
+      }
+      
+      return combined_json
     
     def inferenceHos108WithOutParse(self, context):
       template = self.init_prompt_template_108_hos(context)
