@@ -383,7 +383,7 @@ def BOUNDING_BOX_EXTRACTION(im, predictor, metaData, is_plot_img:True):
 def get_cropped_images_by_classnames_with_metadata(im, outputs, classnames, metadata):
     """
     Lấy danh sách các ảnh crop theo nhiều class name, sử dụng metadata,
-    và sắp xếp theo thứ tự từ trên xuống và trái sang phải.
+    và sắp xếp theo thứ tự từ trên xuống và trái sang phải (dựa trên trung điểm).
 
     Args:
         im (ndarray): Ảnh gốc (numpy array).
@@ -407,18 +407,25 @@ def get_cropped_images_by_classnames_with_metadata(im, outputs, classnames, meta
     boxes = instances.pred_boxes.tensor.numpy()  # Lấy bounding boxes
     classes = instances.pred_classes.numpy()  # Lấy class IDs
 
-    # Lọc box có class_id tương ứng
+    # Lọc box có class_id tương ứng và tính trung điểm
     cropped_boxes = []
     for i, pred_class_id in enumerate(classes):
         if pred_class_id in class_ids:
             x_min, y_min, x_max, y_max = boxes[i].astype(int)
+            x_mid = (x_min + x_max) // 2
+            y_mid = (y_min + y_max) // 2
             cropped_boxes.append({
                 "box": (x_min, y_min, x_max, y_max),
-                "cropped_image": im[y_min:y_max, x_min:x_max]
+                "cropped_image": im[y_min:y_max, x_min:x_max],
+                "x_mid": x_mid,
+                "y_mid": y_mid
             })
 
-    # Sắp xếp các box theo y_min (trên xuống) và x_min (trái sang phải)
-    cropped_boxes = sorted(cropped_boxes, key=lambda b: (b["box"][1], b["box"][0]))
+    # Sắp xếp theo y_mid trước và x_mid sau (với y cho phép chênh lệch 10px)
+    cropped_boxes = sorted(
+        cropped_boxes,
+        key=lambda b: (b["y_mid"] // 10, b["x_mid"])  # Chia y_mid theo nhóm khoảng cách 10px
+    )
 
     # Trích xuất các ảnh đã được crop từ danh sách sắp xếp
     cropped_images = [b["cropped_image"] for b in cropped_boxes]
