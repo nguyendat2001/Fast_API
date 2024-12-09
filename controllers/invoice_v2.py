@@ -184,8 +184,9 @@ async def hos_110(data: Annotated[ArrayImageUploadDTO, Form()]):
             array_img.append(outPath)
 
         header_text, sub_header_text, sumary_text, table_raw_data, head_confident_scores, sub_head_confident_scores, sumary_confident_scores = dlUnit.predict_v3(array_img)
-        print("\n".join(header_text) )
-        print("\n".join(sumary_text) )
+        print("\n".join(header_text))
+        print("\n".join(sub_header_text))
+        print("\n".join(sumary_text))
         json_output = unit_ocr.inferenceHos110WithOutParse_v3("\n".join(header_text), "\n".join(sub_header_text), "\n".join(sumary_text))
         # Trả về thông tin về tệp đã tải lên
         json_output["head_confident_scores"] = np.mean(head_confident_scores)
