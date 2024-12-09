@@ -187,7 +187,7 @@ Hãy trả về dữ liệu trong định dạng JSON. Nếu không có thông t
 Ví dụ về cấu trúc JSON hợp lệ:
 ```json
 {{
-    "Ho_ten_nguoi_benh": "nguyễn văn a",
+    "Ho_ten_nguoi_benh": null,
     "ngay_sinh": "20/09/2011,
     "Gioi_tinh": "nam",
     "Dia_chi": "Ninh Sơn, Việt Yên, Bắc Giang, Việt Nam",
@@ -207,15 +207,15 @@ Ví dụ về cấu trúc JSON hợp lệ:
     "dung_tuyen": null,
     "thong_tuyen": null,
     "trai_tuyen": null,
-    "noi_chuyen_den_tu": "nơi chuyển đến từ",
-    "noi_chuyen_di": "nơi chuyển đi",
-    "chan_doan_xac_dinh": "chẩn đoán xác định",
-    "ma_benh": "mã bệnh",
-    "benh_kem_theo": "bệnh kèm theo",
-    "ma_benh_kem_theo": "mã bệnh kèm theo",
-    "thoi_diem_du_5_nam_tu_ngay": "thời điểm đủ 5 năm liên tục từ ngày",
-    "mien_cung_chi_tra_trong_nam_tu_ngay": "miễn cùng chi trả trong năm từ ngày",
-    "ma_BHYT": "9320814878",
+    "noi_chuyen_den_tu": null,
+    "noi_chuyen_di": null,
+    "chan_doan_xac_dinh": null,
+    "ma_benh": null,
+    "benh_kem_theo": null,
+    "ma_benh_kem_theo": null,
+    "thoi_diem_du_5_nam_tu_ngay": "01/01/2022",
+    "mien_cung_chi_tra_trong_nam_tu_ngay": null,
+    "ma_BHYT": null,
     "gia_tri_tu": "01/01/2022",
     "gia_tri_den": "01/01/2022",
     "muc_huong": "80"
@@ -251,8 +251,8 @@ Hãy trả về dữ liệu trong định dạng JSON. Nếu không có thông t
 Ví dụ về cấu trúc JSON hợp lệ:
 ```json
 {{
-    "treament_expenses": "5.123.421",
-    "treament_expenses_word": "chi phí khám chữa bệnh viết bằng chữ",
+    "treament_expenses": "3.252.112",
+    "treament_expenses_word": "Ba triệu hai trăm năm mươi hai nghìn một trăm mươi hai đồng chẫn",
     "BHYT_thanh_toan": ""5.123.421",
     "nguoi_benh_tra": ""5.123.421",
     "tra_trong_pv_BHYT": ""5.123.421",
