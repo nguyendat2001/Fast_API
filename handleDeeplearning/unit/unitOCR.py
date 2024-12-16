@@ -63,7 +63,7 @@ class unitOCR():
         self.doc_structure_detector = initDetectronPredictor(doc_structure_detector_model, doc_structure_detector_weight, doc_structure_detector_score_thresh, self.metaData_doc_structure)
         self.table_cell_detector = initDetectronPredictor(table_cell_detector_model, table_cell_detector_weight, table_cell_detector_score_thresh, self.metaData_table_cell)
     
-        self.paddle_text_detector = PaddleOCR(use_angle_cls=True, lang='ml', det=True, rec=False, use_gpu=True,
+        self.paddle_text_detector = PaddleOCR(use_angle_cls=True, lang='en', det=True, rec=False, use_gpu=True,
                det_db_box_thresh=0.2,  # Ngưỡng phát hiện hộp văn bản
                 det_db_thresh=0.3      # Ngưỡng nhị phân hóa
                )
