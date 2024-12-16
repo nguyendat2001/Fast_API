@@ -12,26 +12,27 @@ def detect_image(ocr, image):
     
     results = ocr.ocr(image, cls=False)
     cropped_images = []
-    for idx, line in enumerate(results[0]):
-        # Lấy tọa độ box từ kết quả OCR
-        box = line[0]  # 4 góc của bounding box
+    if results is not None and len(results) > 0 and results[0] is not None and len(results[0]) != 0:
+      for idx, line in enumerate(results[0]):
+          # Lấy tọa độ box từ kết quả OCR
+          box = line[0]  # 4 góc của bounding box
 
-        # Chuyển đổi tọa độ sang dạng integer
-        polygon = np.array(box, dtype=np.int32)
+          # Chuyển đổi tọa độ sang dạng integer
+          polygon = np.array(box, dtype=np.int32)
 
-        # Tạo mặt nạ (mask) có cùng kích thước với ảnh gốc
-        mask = np.zeros(image.shape[:2], dtype=np.uint8)
+          # Tạo mặt nạ (mask) có cùng kích thước với ảnh gốc
+          mask = np.zeros(image.shape[:2], dtype=np.uint8)
 
-        # Vẽ đa giác lên mặt nạ
-        cv2.fillPoly(mask, [polygon], 255)
+          # Vẽ đa giác lên mặt nạ
+          cv2.fillPoly(mask, [polygon], 255)
 
-        # Cắt ảnh bằng cách áp dụng mặt nạ
-        cropped = cv2.bitwise_and(image, image, mask=mask)
+          # Cắt ảnh bằng cách áp dụng mặt nạ
+          cropped = cv2.bitwise_and(image, image, mask=mask)
 
-        # Lấy vùng chứa đa giác (bounding rectangle) để hiển thị vùng cắt
-        x, y, w, h = cv2.boundingRect(polygon)
-        cropped = cropped[y:y+h, x:x+w]
-        cropped_images.append(cropped)
+          # Lấy vùng chứa đa giác (bounding rectangle) để hiển thị vùng cắt
+          x, y, w, h = cv2.boundingRect(polygon)
+          cropped = cropped[y:y+h, x:x+w]
+          cropped_images.append(cropped)
     return cropped_images
 
 def detect_arrayimages(ocr, array_image):
@@ -39,5 +40,5 @@ def detect_arrayimages(ocr, array_image):
     import numpy as np
     cropped_images = []
     for image in array_image:
-        cropped_images += detect_image(image)
+        cropped_images += detect_image(ocr,image)
     return cropped_images

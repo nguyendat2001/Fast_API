@@ -547,22 +547,44 @@ def get_raw_text(cell_images, row_im, outputs, cell_to_texts, confidents, viet_o
     return raw_text
 
 def get_raw_text_by_paddle_ocr(cell_images, paddle_ocr, confidents, viet_ocr):
+    """
+    Nhận diện văn bản từ danh sách ảnh và trả về danh sách kết quả.
+
+    Args:
+        cell_images (list): Danh sách ảnh (numpy array).
+        paddle_ocr (PaddleOCR): Đối tượng PaddleOCR.
+        confidents (list): Danh sách độ tin cậy ban đầu.
+        viet_ocr: Đối tượng OCR tiếng Việt.
+    
+    Returns:
+        list: Danh sách chứa thông tin văn bản và độ tin cậy.
+    """
     from handleDeeplearning.paddle_ocr import detect_image
     
-    raw_text = []
+    raw_text = []  # Danh sách chứa kết quả cuối cùng
+    
     for index, item in enumerate(cell_images):
+        # Phát hiện văn bản từ ảnh
         array_text = detect_image(paddle_ocr, item)
-        text, score = get_texts_from_cell_merge_images(array_text, viet_ocr, True)
-        # raw_text.append({"confident": confidents[index],
-        #                  "text":text})
+        
+        # Xử lý khi không phát hiện được văn bản
+        if len(array_text) == 0:
+            text, score = "", 1.0  # Giá trị mặc định
+        else:
+            # Trích xuất văn bản và độ tin cậy
+            text, score = get_texts_from_cell_merge_images(array_text, viet_ocr, True)
+        
+        # Thêm kết quả vào danh sách
         raw_text.append({
             "cell": {
-                # "confident": confidents[index],
                 "confident": score,
                 "text": text
             }
         })
-
+    
+    # In số lượng kết quả
+    print(f"raw_text: {len(raw_text)}")
+    
     return raw_text
 
 def table_infor_extraction(row_images, table_cell_detector, viet_ocr, metaData_table_cell):
