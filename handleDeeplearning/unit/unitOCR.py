@@ -174,8 +174,7 @@ class unitOCR():
             classname = ["sumary"]
             sumary_images = get_cropped_images_by_classnames_with_metadata(im, outputs, classname, self.metaData_doc_structure)
             
-            table_raw_data += table_infor_extraction_by_paddle_ocr(row_images, self.table_cell_detector, self.vietOCR, self.metaData_table_cell)
-            
+            table_raw_data += table_infor_extraction_by_paddle_ocr(row_images, self.paddle_text_detector, self.table_cell_detector, self.vietOCR, self.metaData_table_cell)
             # get text from header, sumary and sub_head_box
             sorted_text_crops = detect_arrayimages(self.paddle_text_detector, head_images)
             head_array_texts, confident_score = get_texts_from_unmerge_image(sorted_text_crops, self.vietOCR, return_prob=True)
