@@ -546,6 +546,25 @@ def get_raw_text(cell_images, row_im, outputs, cell_to_texts, confidents, viet_o
 
     return raw_text
 
+def get_raw_text_by_paddle_ocr(cell_images, paddle_ocr, confidents, viet_ocr):
+    from handleDeeplearning.paddle_ocr import detect_image
+    
+    raw_text = []
+    for index, item in enumerate(cell_images):
+        array_text = detect_image(paddle_ocr, item)
+        text, score = get_texts_from_cell_merge_images(array_text, viet_ocr, True)
+        # raw_text.append({"confident": confidents[index],
+        #                  "text":text})
+        raw_text.append({
+            "cell": {
+                # "confident": confidents[index],
+                "confident": score,
+                "text": text
+            }
+        })
+
+    return raw_text
+
 def table_infor_extraction(row_images, table_cell_detector, viet_ocr, metaData_table_cell):
     table_data = []
     for row_im in row_images:
@@ -612,3 +631,15 @@ def get_texts_from_unmerge_image(cropped_texts, viet_ocr, batch_size=16, return_
     # Chuyển đổi ảnh numpy sang định dạng PIL Image
     pil_images = [Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) for img in cropped_texts]
     return viet_ocr.predict_batch(pil_images, return_prob)
+
+def table_infor_extraction_by_paddle_ocr(row_images, paddle_ocr, table_cell_detector, viet_ocr, metaData_table_cell):
+    table_data = []
+    for row_im in row_images:
+        outputs, cell_to_texts, abc , _, confidents = BOUNDING_BOX_EXTRACTION(row_im, table_cell_detector, metaData_table_cell, False)
+        
+        classname = ["cell"]
+        cell_images = get_cropped_images_by_classnames_with_metadata_sort_x(row_im, outputs, classname, metaData_table_cell)
+
+        raw_text = get_raw_text_by_paddle_ocr(cell_images, paddle_ocr, confidents, viet_ocr)
+        table_data.append(raw_text)
+    return table_data
