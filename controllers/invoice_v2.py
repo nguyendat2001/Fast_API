@@ -17,13 +17,13 @@ from typing import Annotated
 from dto.coreResponseDto import CoreResponseDto
 from dto.imageUploadDto import ImageUploadDTO, ArrayImageUploadDTO
 
-from utils.loggerUtils import Logger
+from unit_utils.loggerUtils import Logger
 
 from handleDeeplearning.ocrLLM.unitOcr import llm_json, Unit_OCR
 from handleDeeplearning.unit.unitOCR import unitOCR as DeepLearningUnit
 
 # from handleDeeplearning.unit.unitOCR import unitOCR as DeepLearningUnit
-from utils.utils import convert_to_serializable
+from unit_utils.utils import convert_to_serializable
 
 logger = Logger(__name__)
 

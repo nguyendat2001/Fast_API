@@ -1,16 +1,14 @@
 import os
 import json
-import detectron2
 from detectron2.utils.logger import setup_logger
 setup_logger()
 
 from detectron2.config import get_cfg
-from detectron2.data import MetadataCatalog, DatasetCatalog
+from detectron2.data import MetadataCatalog
 from handleDeeplearning.vietocr.utils.vietOCRUils import VietOCRUtils
 
 from handleDeeplearning.detectron.utils.dataHandle import registerMetaData
 
-from utils.getEnvSetting import settings
 
 class DetectronUtil:
     def __init__(self, vietOCR, config_path, name):

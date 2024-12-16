@@ -1,10 +1,7 @@
-import os, json
-import cv2
+import  json
 
-from detectron2.structures import BoxMode
 from detectron2.data import MetadataCatalog, DatasetCatalog
 
-from utils.getEnvSetting import settings
 
 def registerMetaData(json_file_path, name):
     # Xóa tất cả dataset và metadata đã đăng ký trước đó

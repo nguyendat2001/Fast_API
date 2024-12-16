@@ -17,7 +17,7 @@ from typing import Annotated
 from dto.coreResponseDto import CoreResponseDto
 from dto.imageUploadDto import ImageUploadDTO
 
-from utils.loggerUtils import Logger
+from unit_utils.loggerUtils import Logger
 
 from handleDeeplearning.detectron.utils.detectronUtils import DetectronUtil
 from handleDeeplearning.vietocr.utils.vietOCRUils import VietOCRUtils
